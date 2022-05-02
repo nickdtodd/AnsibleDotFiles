@@ -1,0 +1,10 @@
+---
+# tasks file for dotfiles
+- name: Template dotfiles
+  ansible.builtin.template:
+    src: "templates/{{ item.template }}.j2"
+    dest: "{{ dotfile_home }}.{{ item.dest }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+  loop: "{{ dotfile_templates }}"   
+    

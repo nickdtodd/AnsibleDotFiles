@@ -1,0 +1,32 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  vars_files:
+    - "../../defaults/main.yml"
+  tasks:
+  - name: Stat dotfiles
+    ansible.builtin.stat:
+      path: "{{ dotfile_home }}.{{ item.dest }}"
+    loop: "{{ dotfile_templates }}"
+    register: dotfiles
+    
+#  - debug:
+#      var: item.stat.path
+#    loop: "{{ dotfiles.results }}"
+
+    
+  - name: Assert dotfiles exist
+    assert:
+      that: "{{ item.stat.exists }} is true"
+    loop: "{{ dotfiles.results }}"
+    
+  - name: Assert dotfiles have correct owner
+    assert:
+      that: 
+        - "{{ item.stat.pw_name }} == {{ ansible_user }}"
+        - "{{ item.stat.gr_name }} == {{ ansible_user }}"
+    loop: "{{ dotfiles.results }}"
+

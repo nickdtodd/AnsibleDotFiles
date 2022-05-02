@@ -1,0 +1,6 @@
+---
+# defaults file for dotfiles
+dotfile_home: "/home/{{ ansible_user }}/"
+dotfile_templates:
+  - template: vimrc
+    dest: vimrc

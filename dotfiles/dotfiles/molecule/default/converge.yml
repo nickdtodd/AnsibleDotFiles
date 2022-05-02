@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: all
+  user: root
+  tasks:
+    - name: "Include dotfiles.dotfiles"
+      include_role:
+        name: "dotfiles.dotfiles"
